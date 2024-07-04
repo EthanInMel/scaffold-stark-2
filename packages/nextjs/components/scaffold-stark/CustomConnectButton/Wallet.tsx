@@ -14,7 +14,7 @@ const Wallet = ({
     connector: Connector,
   ) => void;
 }) => {
-  const isSvg = connector.icon.light?.startsWith("<svg");
+  const isSvg = typeof connector.icon === "string" ? connector.icon.startsWith("<svg") : connector.icon.light?.startsWith("<svg");
   const [clicked, setClicked] = useState(false);
 
   return (
@@ -30,14 +30,14 @@ const Wallet = ({
           <div
             className="h-full w-full object-cover rounded-[5px]"
             dangerouslySetInnerHTML={{
-              __html: connector.icon.light ?? "",
+              __html: typeof connector.icon === "string" ? connector.icon : connector.icon.light ?? "",
             }}
           />
         ) : (
           <Image
             alt={connector.name}
             loader={loader}
-            src={connector.icon.light!}
+            src={typeof connector.icon === "string" ? connector.icon : connector.icon.light!}
             width={70}
             height={70}
             className="h-full w-full object-cover rounded-[5px]"
