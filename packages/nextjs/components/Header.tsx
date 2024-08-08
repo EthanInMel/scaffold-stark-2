@@ -1,10 +1,16 @@
 "use client";
-
 import React, { useCallback, useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowDownTrayIcon,
+  ArrowPathIcon,
+  ArrowUpTrayIcon,
+  Bars3Icon,
+  BugAntIcon,
+  PhotoIcon,
+} from "@heroicons/react/24/outline";
 import { useOutsideClick } from "~~/hooks/scaffold-stark";
 import { CustomConnectButton } from "~~/components/scaffold-stark/CustomConnectButton";
 import { useTheme } from "next-themes";
@@ -13,7 +19,7 @@ import { devnet } from "@starknet-react/chains";
 import { SwitchTheme } from "./SwitchTheme";
 import { useAccount, useProvider } from "@starknet-react/core";
 
-type HeaderMenuLink = {
+export type HeaderMenuLink = {
   label: string;
   href: string;
   icon?: React.ReactNode;
@@ -21,8 +27,24 @@ type HeaderMenuLink = {
 
 export const menuLinks: HeaderMenuLink[] = [
   {
-    label: "Home",
-    href: "/",
+    label: "My NFTs",
+    href: "/myNFTs",
+    icon: <PhotoIcon className="h-4 w-4" />,
+  },
+  {
+    label: "Transfers",
+    href: "/transfers",
+    icon: <ArrowPathIcon className="h-4 w-4" />,
+  },
+  {
+    label: "IPFS Upload",
+    href: "/ipfsUpload",
+    icon: <ArrowUpTrayIcon className="h-4 w-4" />,
+  },
+  {
+    label: "IPFS Download",
+    href: "/ipfsDownload",
+    icon: <ArrowDownTrayIcon className="h-4 w-4" />,
   },
   {
     label: "Debug Contracts",
@@ -39,6 +61,7 @@ export const HeaderMenuLinks = () => {
   useEffect(() => {
     setIsDark(theme === "dark");
   }, [theme]);
+
   return (
     <>
       {menuLinks.map(({ label, href, icon }) => {
@@ -70,13 +93,13 @@ export const HeaderMenuLinks = () => {
 export const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
+
   useOutsideClick(
     burgerMenuRef,
     useCallback(() => setIsDrawerOpen(false), []),
   );
   const { targetNetwork } = useTargetNetwork();
   const isLocalNetwork = targetNetwork.id === devnet.id;
-
   const { provider } = useProvider();
   const { address, status } = useAccount();
   const [isDeployed, setIsDeployed] = useState(true);
@@ -128,7 +151,7 @@ export const Header = () => {
               alt="SE2 logo"
               className="cursor-pointer"
               fill
-              src="/logo.svg"
+              src="/challenge-icon-starknet.svg"
             />
           </div>
           <div className="flex flex-col">
@@ -147,7 +170,6 @@ export const Header = () => {
           </span>
         ) : null}
         <CustomConnectButton />
-        {/* <FaucetButton /> */}
         <SwitchTheme
           className={`pointer-events-auto ${
             isLocalNetwork ? "self-end md:self-auto" : ""
