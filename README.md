@@ -3,7 +3,7 @@
 This project is built with [scaffold-stark-2](https://github.com/Quantum3-Labs/scaffold-stark-2), please read the doc to start the project.
 
 ## **Todo**
-- [ ] Vault NFT with yielding, using adapter patterns to integrate lending platforms.
+- [ ] Use adapter pattern to integrate lending platforms, such as zklend and nostra.
 - [ ] Tests.
 - [ ] Price charts of NFT trading.
 
